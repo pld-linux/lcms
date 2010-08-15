@@ -29,8 +29,6 @@ BuildRequires:	swig-python >= 1.3.30
 BuildRequires:	zlib-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
-# There is no pretty description in source archive... use these.
-
 %description
 Little CMS intends to be a small-footprint color management engine,
 with special focus on accuracy and performance. It uses the
@@ -45,7 +43,7 @@ przede wszystkim z myślą o dokładności i wydajności. Wykorzystuje
 standard International Color Consortium (ICC), będący współczesnym
 standardem zarządzania kolorami.
 
-Little CMS obsługuje specyfikację profili ICC w wersji 3.4.
+Little CMS 1.x obsługuje specyfikację profili ICC w wersji 3.4.
 
 %package devel
 Summary:	Little CMS - header files and developer's documentation
