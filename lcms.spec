@@ -24,6 +24,7 @@ BuildRequires:	sed >= 4.0
 BuildRequires:	python-devel >= 2.2
 BuildRequires:	python-modules
 BuildRequires:	rpm-pythonprov
+BuildRequires:	rpmbuild(macros) >= 1.566
 BuildRequires:	swig-python >= 1.3.30
 %endif
 BuildRequires:	zlib-devel
