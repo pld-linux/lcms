@@ -100,7 +100,7 @@ Moduł Little CMS dla Pythona.
 %prep
 %setup -q
 %undos configure.ac
-%patch0 -p1
+%patch -P0 -p1
 
 %build
 # rebuild using newer swig (needed for g++ 4/python 2.5)
