@@ -1,0 +1,12 @@
+--- lcms-1.19/src/cmsio1.c.orig	2009-11-13 10:02:11.000000000 +0100
++++ lcms-1.19/src/cmsio1.c	2025-10-04 21:25:01.391005903 +0200
+@@ -23,6 +23,9 @@
+ // ICC profile serialization
+ 
+ 
++#define _XOPEN_SOURCE 500
++#include <strings.h>
++#include <unistd.h>
+ #include "lcms.h"
+ 
+ // ----------------------------------------------------------------- Tag Serialization

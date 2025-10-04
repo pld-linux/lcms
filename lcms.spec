@@ -1,18 +1,20 @@
 #
 # Conditional build:
-%bcond_without	python	# don't build python bindings
+%bcond_without	python	# Python bindings
 #
 Summary:	Little CMS - a library to transform between colour profiles
 Summary(pl.UTF-8):	Little CMS - biblioteka do konwersji między profilami kolorów
 Name:		lcms
 Version:	1.19
-Release:	6
+Release:	7
 License:	MIT
 Group:		Libraries
-Source0:	http://downloads.sourceforge.net/lcms/%{name}-%{version}.tar.gz
+Source0:	https://downloads.sourceforge.net/lcms/%{name}-%{version}.tar.gz
 # Source0-md5:	8af94611baf20d9646c7c2c285859818
 Patch0:		%{name}-python.patch
-URL:		http://www.littlecms.com/
+Patch1:		%{name}-includes.patch
+Patch2:		%{name}-types.patch
+URL:		https://www.littlecms.com/
 BuildRequires:	autoconf >= 2.57
 BuildRequires:	automake >= 1:1.7.2
 BuildRequires:	libjpeg-devel
@@ -101,11 +103,13 @@ Moduł Little CMS dla Pythona.
 %setup -q
 %undos configure.ac
 %patch -P0 -p1
+%patch -P1 -p1
+%patch -P2 -p1
 
 %build
 # rebuild using newer swig (needed for g++ 4/python 2.5)
 cd python
-rm -f lcms.py lcms_wrap.cxx
+%{__rm} lcms.py lcms_wrap.cxx
 swig -python -c++ -I../include lcms.i
 cd ..
 %{__libtoolize}
@@ -113,7 +117,8 @@ cd ..
 %{__autoconf}
 %{__automake}
 %configure \
-	--with%{!?with_python:out}-python
+	PYTHON=%{__python} \
+	--with-python%{!?with_python:=no}
 
 %{__make}
 
@@ -126,6 +131,8 @@ rm -rf $RPM_BUILD_ROOT
 install samples/{icctrans,wtpt} tifficc/tifficc $RPM_BUILD_ROOT%{_bindir}
 
 %{__rm} $RPM_BUILD_ROOT%{py_sitedir}/*.{a,la}
+# obsoleted by pkg-config
+%{__rm} $RPM_BUILD_ROOT%{_libdir}/liblcms.la
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -137,13 +144,12 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %doc AUTHORS COPYING NEWS README.1ST
 %attr(755,root,root) %{_libdir}/liblcms.so.*.*.*
-%attr(755,root,root) %ghost %{_libdir}/liblcms.so.1
+%ghost %{_libdir}/liblcms.so.1
 
 %files devel
 %defattr(644,root,root,755)
 %doc doc/*
-%attr(755,root,root) %{_libdir}/liblcms.so
-%{_libdir}/liblcms.la
+%{_libdir}/liblcms.so
 %{_includedir}/icc34.h
 %{_includedir}/lcms.h
 %{_pkgconfigdir}/lcms.pc
